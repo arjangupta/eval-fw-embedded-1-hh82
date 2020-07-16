@@ -23,7 +23,9 @@
  * | Field Length (bytes): | 1          | 1          | 2                     | 2                     | 1                   | <Value of Body Length> | 2                               |
  * +-----------------------+------------+------------+-----------------------+-----------------------+---------------------+------------------------+---------------------------------+
  * | Value/Description:    | 0xAA       | 0xAA       | Transmitted in        | Transmitted in        | Indicates Length of | <Application Data>     | Calculated over fields          |
- * |                       |            |            | Big Endian Byte-Order | Big Endian Byte-Order | Body Field          |                        | (inclusive): Preamble0 --> Body |
+ * |                       |            |            | Big Endian Byte-Order | Big Endian Byte-Order | Body Field          | (Bytes may take any    | (inclusive): Preamble0 --> Body |
+ * |                       |            |            |                       |                       |                     |  value in [0,255])     | Transmitted in Big Endian       |
+ * |                       |            |            |                       |                       |                     |                        | Byte-Order                      |
  * +-----------------------+------------+------------+-----------------------+-----------------------+---------------------+------------------------+---------------------------------+
  *
  */
@@ -46,7 +48,7 @@ typedef struct Msg_PDU {
  * @return The calculated checksum
  */
 // Stub function. Do not implement
-uint16_t calculate_checksum(uint8_t const *const buffer, uint16_t buffer_len){
+inline uint16_t calculate_checksum(uint8_t const *const buffer, uint16_t buffer_len){
   return 0x2827;
 }
 
@@ -54,7 +56,7 @@ uint16_t calculate_checksum(uint8_t const *const buffer, uint16_t buffer_len){
  * @return The local device address
  */
 // Stub function. Do not implement
-uint8_t get_my_addr(){
+inline uint8_t get_my_addr(){
     return 0x19;
 }
 
