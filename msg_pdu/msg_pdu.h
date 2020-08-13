@@ -78,7 +78,7 @@ inline uint8_t get_my_addr(){
  * @return 1 on success, ERRNO for a known error, or 0 for an unknown error
  */
 //TODO - Implement this function
-int prepareMessage(Msg_PDU const * const pdu, uint8_t* const txBuf, uint8_t const bufSize);
+int prepareMessage(Msg_PDU const * const pdu, uint8_t* const txBuf, size_t const bufSize);
 
 /*
  * Process a received buffer of data for usage by the rest of the application
@@ -96,6 +96,6 @@ int prepareMessage(Msg_PDU const * const pdu, uint8_t* const txBuf, uint8_t cons
  * @return 1 on success, ERRNO for a known error, or 0 for an unknown error
  */
 //TODO - Implement this function
-int receiveMessage(uint8_t const * const rxBuf, uint8_t const bufSize, Msg_PDU * const pdu);
+int receiveMessage(uint8_t const * const rxBuf, size_t const bufSize, Msg_PDU * const pdu);
 
 #endif // _MSG_PDU_H_
