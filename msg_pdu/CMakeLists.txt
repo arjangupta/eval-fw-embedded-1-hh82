@@ -9,4 +9,4 @@ set_target_properties(${MSG_PDU_LIB_NAME} PROPERTIES
     # C_STANDARD 11 # Force -std=c11 for this target (C11 is enforced for the whole project already)
 )
 
-# add_subdirectory(tests)
+add_subdirectory(tests)
