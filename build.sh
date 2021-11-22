@@ -18,7 +18,7 @@ echo ""
 echo "---------------- Commencing build ----------------"
 echo ""
 cd build/
-make -j $(nproc) #VERBOSE=1 #<------- comment in VERBOSE=1 to see flags
+make -j $(nproc) VERBOSE=1 #<------- comment in VERBOSE=1 to see flags
 build_status=$?
 cd ../../
 

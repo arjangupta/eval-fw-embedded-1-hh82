@@ -2,6 +2,7 @@
 #define _MSG_PDU_H_
 
 #include <stdint.h>
+#include <stddef.h>
 
 #define MAX_BODY_LEN 255
 
@@ -61,7 +62,7 @@ inline uint8_t get_my_addr(){
 }
 
 /*
- * Prepares a PDU for transmssion out of the device's communications port.
+ * @brief Prepares a PDU for transmssion out of the device's communications port.
  *
  * @param pdu[in] The in-memory representation of the data to send. This
  *                structure has buffer has been populated by the calling
@@ -77,11 +78,10 @@ inline uint8_t get_my_addr(){
  *
  * @return 1 on success, ERRNO for a known error, or 0 for an unknown error
  */
-//TODO - Implement this function
 int prepareMessage(Msg_PDU const * const pdu, uint8_t* const txBuf, size_t const bufSize);
 
 /*
- * Process a received buffer of data for usage by the rest of the application
+ * @brief Process a received buffer of data for usage by the rest of the application
  *
  * @param rxBuf[in] The raw buffer content as received by the communications
  *                  subsystem. <rxBuf> is gauranteed by the receiving logic
@@ -95,7 +95,6 @@ int prepareMessage(Msg_PDU const * const pdu, uint8_t* const txBuf, size_t const
  *
  * @return 1 on success, ERRNO for a known error, or 0 for an unknown error
  */
-//TODO - Implement this function
 int receiveMessage(uint8_t const * const rxBuf, size_t const bufSize, Msg_PDU * const pdu);
 
 #endif // _MSG_PDU_H_
