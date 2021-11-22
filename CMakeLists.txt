@@ -6,7 +6,11 @@ project(fort-robotics-embbedded-eval)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
-message(STATUS "C11 support has been enabled by default")
+# Use standard C++1
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+message(STATUS "C11 and C++11 support have been enabled by default")
 
 if (NOT DEBUG)
     message("-- Debug mode is off")
@@ -23,6 +27,8 @@ else()
     message("-- Setting build type as Debug")
     set(CMAKE_BUILD_TYPE Debug)
 endif()
+
+enable_testing()
 
 # Go into the msg_pdu dir for compilation
 add_subdirectory(msg_pdu)

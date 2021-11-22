@@ -4,7 +4,7 @@
 namespace testing_msg_pdu
 {
 
-TEST(prepare_message_tests, test1)
+TEST(receive_message_tests, test1)
 {
     FAIL();
 }
