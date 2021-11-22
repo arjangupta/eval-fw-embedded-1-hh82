@@ -62,7 +62,7 @@ inline uint8_t get_my_addr(){
 }
 
 /*
- * @brief Prepares a PDU for transmssion out of the device's communications port.
+ * @brief Prepares a PDU for transmssion out of the device's communications port. Originally marked TODO by the coding evaluation prompt.
  *
  * @param pdu[in] The in-memory representation of the data to send. This
  *                structure has buffer has been populated by the calling
@@ -81,7 +81,7 @@ inline uint8_t get_my_addr(){
 int prepareMessage(Msg_PDU const * const pdu, uint8_t* const txBuf, size_t const bufSize);
 
 /*
- * @brief Process a received buffer of data for usage by the rest of the application
+ * @brief Process a received buffer of data for usage by the rest of the application. Originally marked TODO by the coding evaluation prompt.
  *
  * @param rxBuf[in] The raw buffer content as received by the communications
  *                  subsystem. <rxBuf> is gauranteed by the receiving logic
