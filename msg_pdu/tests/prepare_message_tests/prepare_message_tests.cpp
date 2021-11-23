@@ -32,12 +32,12 @@ TEST(prepare_message_tests, happy_path_test1)
         pdu_body_vector.push_back(getRandomByte());
     }
 
-    // Destination addr 453, source addr 22, body len 12,
-    const uint16_t destination_address = getRandomTwoBytes();
-    uint16_t source_address = getRandomTwoBytes();
+    // Generate the destination address
+    uint16_t destination_address = getRandomTwoBytes();
+    const uint16_t source_address = get_my_addr(); 
     while (destination_address == source_address)
     {
-        source_address = getRandomTwoBytes();
+        destination_address = getRandomTwoBytes();
     }
     std::cout << "Source and destination addresses are: " << source_address << " " << destination_address << std::endl;
     
@@ -58,7 +58,7 @@ TEST(prepare_message_tests, happy_path_test1)
     uint8_t expected_buffer[buffer_alloc_size] = {
         Msg_PDU_PREAMBLE0,
         Msg_PDU_PREAMBLE1,
-        // Big endian storage:
+        // Big endian storage (THESE ARE NON-BITWISE ON PURPOSE - I do not want to test the code with the same code inside prepareMessage()):
         *(((uint8_t*)&source_address)+1),
         *((uint8_t*)&source_address),
         *(((uint8_t*)&destination_address)+1),
@@ -71,7 +71,10 @@ TEST(prepare_message_tests, happy_path_test1)
         std::cout << "expected_buffer[" << i << "] : " << (int)expected_buffer[i] << std::endl;
     }
     memcpy((expected_buffer+1+1+2+2+1), pdu_body_vector.data(), message_body_length);
-    expected_buffer[1+1+2+2+1+message_body_length] = calculate_checksum(pdu_body_vector.data(), message_body_length);
+    // Get check sum
+    const uint16_t checksum = calculate_checksum(pdu_body_vector.data(), message_body_length);
+    expected_buffer[1+1+2+2+1+message_body_length] = *(((uint8_t*)&checksum)+1);
+    expected_buffer[1+1+2+2+1+message_body_length+1] = *((uint8_t*)&checksum);
 
     EXPECT_EQ(memcmp(expected_buffer, output_buffer, buffer_alloc_size), 0);
 

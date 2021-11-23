@@ -9,6 +9,8 @@
 #define ERR_NOMEM (-1)
 #define ERR_INVALID_CKSUM (-2)
 #define ERR_WRONG_DST (-3)
+#define ERR_NULL_PDU (-4)
+#define ERR_WRONG_SRC (-5) 
 
 /* 
  * You are writing a portion of an implementation of a device-to-device serial
