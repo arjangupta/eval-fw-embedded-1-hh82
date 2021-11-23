@@ -10,11 +10,13 @@ namespace testing_msg_pdu
 
 const uint16_t getRandomTwoBytes()
 {
+    srand(time(NULL));
     return rand() % 65536;
 }
 
 const uint8_t getRandomByte()
 {
+    srand(time(NULL));
     return rand() % 256;
 }
 
@@ -37,6 +39,7 @@ TEST(prepare_message_tests, happy_path_test1)
     {
         source_address = getRandomTwoBytes();
     }
+    std::cout << "Source and destination addresses are: " << source_address << " " << destination_address << std::endl;
     
     // Initialize pdu
     Msg_PDU test_pdu1;
@@ -55,10 +58,18 @@ TEST(prepare_message_tests, happy_path_test1)
     uint8_t expected_buffer[buffer_alloc_size] = {
         Msg_PDU_PREAMBLE0,
         Msg_PDU_PREAMBLE1,
-        source_address,
-        destination_address,
-        message_body_length,
+        // Big endian storage:
+        *(((uint8_t*)&source_address)+1),
+        *((uint8_t*)&source_address),
+        *(((uint8_t*)&destination_address)+1),
+        *((uint8_t*)&destination_address),
+        message_body_length
     };
+    std::cout << "Printing the first seven bytes of expected buffer: " << std::endl;
+    for (size_t i = 0; i < 7; i++)
+    {
+        std::cout << "expected_buffer[" << i << "] : " << (int)expected_buffer[i] << std::endl;
+    }
     memcpy((expected_buffer+1+1+2+2+1), pdu_body_vector.data(), message_body_length);
     expected_buffer[1+1+2+2+1+message_body_length] = calculate_checksum(pdu_body_vector.data(), message_body_length);
 
