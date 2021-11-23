@@ -105,8 +105,11 @@ int receiveMessage(uint8_t const * const rxBuf, size_t const bufSize, Msg_PDU * 
   // Set dest addr
   pdu->dest_addr = full_dest_address;
 
-  // Check body length to proceed
+  // Set body length
   const uint8_t body_length = rxBuf[6];
+  pdu->body_len = body_length;
+
+  // Check body length to proceed accordingly
   if (0 != body_length)
   {
     memcpy(pdu->body, (rxBuf+7), body_length);
