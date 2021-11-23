@@ -42,6 +42,12 @@ typedef struct Msg_PDU {
   uint8_t body[MAX_BODY_LEN];
 } Msg_PDU;
 
+/*
+ * The two preamble bytes are given as consts for easy usage.
+ */
+const uint8_t Msg_PDU_PREAMBLE0 = 0xAA;
+const uint8_t Msg_PDU_PREAMBLE1 = 0xAA;
+
 /* 
  * @param buffer[in] Data to calculate the checksum of
  * @param buffer_len[in] The length of the data contained in <buffer>

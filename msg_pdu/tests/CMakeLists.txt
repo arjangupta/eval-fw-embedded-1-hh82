@@ -37,6 +37,5 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
     include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-enable_testing()
 add_subdirectory(prepare_message_tests)
 add_subdirectory(receive_message_tests)
