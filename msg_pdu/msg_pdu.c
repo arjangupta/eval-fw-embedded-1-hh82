@@ -1,4 +1,5 @@
 #include "msg_pdu.h"
+#include <string.h>
 
 /*
  * @see msg_pdu.h for description
@@ -97,7 +98,7 @@ int receiveMessage(uint8_t const * const rxBuf, size_t const bufSize, Msg_PDU * 
 
   // Check if destination address is valid
   const uint16_t full_dest_address = bigEndian2ByteToUint16(rxBuf[4], rxBuf[5]);
-  if (get_my_addr != full_dest_address)
+  if (get_my_addr() != full_dest_address)
   {
     return ERR_WRONG_DST;
   }
@@ -108,7 +109,7 @@ int receiveMessage(uint8_t const * const rxBuf, size_t const bufSize, Msg_PDU * 
   const uint8_t body_length = rxBuf[6];
   if (0 != body_length)
   {
-    memcpy(pdu->body, rxBuf[7], body_length);
+    memcpy(pdu->body, (rxBuf+7), body_length);
   }
 
   // Verify checksum

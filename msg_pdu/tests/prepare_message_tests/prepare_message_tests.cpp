@@ -58,7 +58,7 @@ TEST(prepare_message_tests, happy_path_test1)
     uint8_t expected_buffer[buffer_alloc_size] = {
         Msg_PDU_PREAMBLE0,
         Msg_PDU_PREAMBLE1,
-        // Big endian storage (THESE ARE NON-BITWISE ON PURPOSE - I do not want to test the code with the same code inside prepareMessage()):
+        // Big endian storage (THESE ARE NOT BITWISE ON PURPOSE - I do not want to test the code with the same code inside prepareMessage()):
         *(((uint8_t*)&source_address)+1),
         *((uint8_t*)&source_address),
         *(((uint8_t*)&destination_address)+1),
