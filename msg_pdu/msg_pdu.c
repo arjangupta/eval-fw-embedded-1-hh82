@@ -51,10 +51,68 @@ int prepareMessage(Msg_PDU const * const pdu, uint8_t* const txBuf, size_t const
   return 1;
 }
 
+static const uint16_t bigEndian2ByteToUint16(uint8_t high_byte, uint8_t low_byte)
+{
+  const uint16_t masked_low_byte = low_byte & 0xFFFF; // low B with high set to 0xFF
+  uint16_t masked_high_byte = high_byte << 8; // put high B in high slot
+  masked_high_byte |= 0x00FF; // turn low B to 0xFF
+  return masked_high_byte & masked_low_byte;
+}
+
 /*
  * @see msg_pdu.h for description
  */
 int receiveMessage(uint8_t const * const rxBuf, size_t const bufSize, Msg_PDU * const pdu)
 {
-  return 0;
+  // If the received buffer is not at least 9 bytes long, throw error
+  if (bufSize < 9)
+  {
+    return ERR_RCVD_BUF_TRUNCD;
+  }
+
+  // If pdu is unalloc'd, return
+  if (NULL == pdu)
+  {
+    return ERR_NULL_PDU;
+  }
+
+  // Check preamble messages
+  if (Msg_PDU_PREAMBLE0 != rxBuf[0])
+  {
+    return ERR_PREAMB0_MISMATCH;
+  }
+  else if (Msg_PDU_PREAMBLE1 != rxBuf[1])
+  {
+    return ERR_PREAMB1_MISMATCH;
+  }
+
+  // Check if source address is valid
+  const uint16_t full_source_address = bigEndian2ByteToUint16(rxBuf[2], rxBuf[3]);
+  if (get_my_addr() == full_source_address)
+  {
+    return ERR_WRONG_SRC;
+  }
+  // Set the source addr
+  pdu->src_addr = full_source_address;
+
+  // Check if destination address is valid
+  const uint16_t full_dest_address = bigEndian2ByteToUint16(rxBuf[4], rxBuf[5]);
+  if (get_my_addr != full_dest_address)
+  {
+    return ERR_WRONG_DST;
+  }
+  // Set dest addr
+  pdu->dest_addr = full_dest_address;
+
+  // Check body length to proceed
+  const uint8_t body_length = rxBuf[6];
+  if (0 != body_length)
+  {
+    memcpy(pdu->body, rxBuf[7], rxBuf[6]);
+  }
+
+  // Verify checksum
+  const uint16_t full_checksum = bigEndian2ByteToUint16(rxBuf)
+
+  return 1;
 }

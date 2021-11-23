@@ -5,12 +5,15 @@
 #include <stddef.h>
 
 #define MAX_BODY_LEN 255
-
+// TODO: These #define errnos should become an enum
 #define ERR_NOMEM (-1)
 #define ERR_INVALID_CKSUM (-2)
 #define ERR_WRONG_DST (-3)
 #define ERR_NULL_PDU (-4)
-#define ERR_WRONG_SRC (-5) 
+#define ERR_WRONG_SRC (-5)
+#define ERR_PREAMB0_MISMATCH (-6)
+#define ERR_PREAMB1_MISMATCH (-7)
+#define ERR_RCVD_BUF_TRUNCD (-8)
 
 /* 
  * You are writing a portion of an implementation of a device-to-device serial
