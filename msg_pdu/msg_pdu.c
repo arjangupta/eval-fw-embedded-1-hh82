@@ -108,11 +108,15 @@ int receiveMessage(uint8_t const * const rxBuf, size_t const bufSize, Msg_PDU * 
   const uint8_t body_length = rxBuf[6];
   if (0 != body_length)
   {
-    memcpy(pdu->body, rxBuf[7], rxBuf[6]);
+    memcpy(pdu->body, rxBuf[7], body_length);
   }
 
   // Verify checksum
-  const uint16_t full_checksum = bigEndian2ByteToUint16(rxBuf)
+  const uint16_t full_checksum = bigEndian2ByteToUint16(rxBuf[7+body_length], rxBuf[7+body_length+1]);
+  if (calculate_checksum(pdu->body, body_length) != full_checksum)
+  {
+    return ERR_INVALID_CKSUM;
+  }
 
   return 1;
 }
